@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { Op } from "sequelize";
 
 import UserModel from "../models/User.model.js";
-import { Op } from "sequelize";
 
 class AuthService {
     constructor(Server) {
