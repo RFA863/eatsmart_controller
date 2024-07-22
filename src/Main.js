@@ -1,5 +1,6 @@
 //Library
 import 'dotenv/config';
+import path from "path";
 import Express from "express";
 
 //Function
@@ -11,6 +12,7 @@ import HandlerMiddleware from "./middlewares/Handler.middleware.js";
 
 class Server {
     constructor() {
+        this.Path = path;
         this.env = process.env;
         this.SendLogs = SendLogs;
 

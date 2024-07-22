@@ -38,7 +38,7 @@ class ProfileController {
     async get(req, res) {
         const { userId } = req.middlewares.authorization;
 
-        const getDataByIdSrv = await this.ProfileService.getProfileById(userId);
+        const getDataByIdSrv = await this.ProfileService.getDataById(userId);
 
         if (getDataByIdSrv === -1)
             return res.status(404).json(this.ResponsePreset.resErr(
@@ -66,7 +66,7 @@ class ProfileController {
                 404, "Profile not found", "service", { code: -1 }
             ));
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", updateData));
+        res.status(200).json(this.ResponsePreset.resOK("Ok", null));
     }
 }
 

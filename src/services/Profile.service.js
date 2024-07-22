@@ -1,10 +1,12 @@
 import { where } from "sequelize";
+import UserModel from "../models/User.model.js";
 import ProfileModel from "../models/Profile.model.js";
 
 class ProfileService {
     constructor(Server) {
         this.Server = Server;
         this.API = this.Server.API;
+        this.UserModel = new UserModel(this.Server).table;
         this.ProfileModel = new ProfileModel(this.Server).table;
     }
 
@@ -47,10 +49,26 @@ class ProfileService {
     }
 
     async getDataById(userId) {
+
+        this.UserModel.hasOne(this.ProfileModel, {
+            foreignKey: "user_id"
+        });
+        this.ProfileModel.belongsTo(this.UserModel, {
+            foreignKey: "user_id"
+        });
+
         const getProfile = await this.ProfileModel.findOne({
             where: {
                 user_id: userId,
-            }
+            },
+            include: [
+                {
+                    model: this.UserModel,
+                    where: {
+                        id: userId
+                    }
+                }
+            ]
         });
 
         if (getProfile === null) return -1;
@@ -94,6 +112,8 @@ class ProfileService {
                 user_id: userId
             }
         });
+
+
 
         return updateProfile;
 
