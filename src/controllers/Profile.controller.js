@@ -14,6 +14,12 @@ class ProfileController {
         this.ProfileService = new ProfileService(this.Server);
     }
 
+    async getAktivitas(req, res) {
+        const getAktifitasSrv = await this.ProfileService.getAktifitas();
+
+        res.status(200).json(this.ResponsePreset.resOK("Ok", getAktifitasSrv));
+    }
+
     async input(req, res) {
 
         const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputProfile)
@@ -25,7 +31,7 @@ class ProfileController {
         const { userId } = req.middlewares.authorization;
         const data = req.body;
 
-        const inputDataSrv = await this.ProfileService.input(data, userId);
+        const inputDataSrv = await this.ProfileService.inputData(data, userId);
 
         if (inputDataSrv === -1)
             return res.status(409).json(this.ResponsePreset.resErr(
@@ -65,6 +71,34 @@ class ProfileController {
             return res.status(404).json(this.ResponsePreset.resErr(
                 404, "Profile not found", "service", { code: -1 }
             ));
+
+        res.status(200).json(this.ResponsePreset.resOK("Ok", null));
+    }
+
+    async getTujuanDiet(req, res) {
+        const getTujuanDietSrv = await this.ProfileService.getTujuanDiet();
+
+        res.status(200).json(this.ResponsePreset.resOK("OK", getTujuanDietSrv));
+    }
+
+    async getPreferensiDiet(req, res) {
+        const getPreferensiDietSrv = await this.ProfileService.getPreferensiDiet();
+
+        res.status(200).json(this.ResponsePreset.resOK("Ok", getPreferensiDietSrv));
+    }
+
+    async inputPreferensiDietDetail(req, res) {
+
+        const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputPreferensi)
+        if (!schemaValidate(req.body))
+            return res.status(400).json(this.ResponsePreset.resErr(
+                "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
+            ));
+
+        const data = req.body;
+        const { userId } = req.middlewares.authorization;
+
+        const inputPreferensiDietDetailSrv = await this.ProfileService.inputPreferensiDietDetail(data, userId);
 
         res.status(200).json(this.ResponsePreset.resOK("Ok", null));
     }

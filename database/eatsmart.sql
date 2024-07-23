@@ -1,4 +1,4 @@
-create table User (
+CREATE TABLE User (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
@@ -7,14 +7,21 @@ create table User (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-create table Aktivitas(
+CREATE TABLE Aktivitas(
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     aktivitas VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-create table Profile (
+INSERT INTO Aktivitas (aktivitas)
+VALUES ("Sangat Ringan (Tidak banyak bergerak)"),
+("Ringan (Melakukan aktivitas fisik ringan sepanjang hari)"),
+("Sedang (Melakukan aktivitas fisik sedang sepanjang hari)"),
+("Aktif (Melakukan aktifitis berat beberapa kali seminggu)"),
+("Sangat Aktif (Melakukan pekerjaan fisik berat)");
+
+CREATE TABLE Profile (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     user_id INT NOT NULL,
     tanggal_lahir DATE NOT NULL,
@@ -30,7 +37,43 @@ create table Profile (
     FOREIGN KEY (aktivitas_id) REFERENCES Aktivitas(id)
 ); 
 
-create table Menu (
+CREATE TABLE Tujuan_Diet(
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    tujuan VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO Tujuan_Diet (tujuan)
+VALUES ("Menurunkan Berat Badan"),
+("Mempertahankan Berat Badan"),
+("Menaikan Berat Badan");
+
+CREATE TABLE Preferensi_diet (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    preferensi VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO Preferensi_diet (preferensi)
+VALUES ("Tinggi Kalori"),
+("Tinggi Protein"), ("Tinggi Lemak"),
+("Tinggi Karbohidrat"), ("Rendah Kalori"),
+("Rendah Protein"), ("Rendah Lemak"),
+("Rendah Karbohidrat");
+
+CREATE TABLE Preferensi_diet_detail (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    profile_id INT NOT NULL,
+    preferensi_diet_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (profile_id) REFERENCES Profile(id),
+    FOREIGN KEY (preferensi_diet_id) REFERENCES Preferensi_diet(id)
+);
+
+CREATE TABLE Menu (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nama VARCHAR(100) NOT NULL,
     kalori INT(5) NOT NULL,
