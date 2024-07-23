@@ -1,4 +1,5 @@
-import { where } from "sequelize";
+import moment from 'moment';
+
 import UserModel from "../models/User.model.js";
 import ProfileModel from "../models/Profile.model.js";
 
@@ -10,6 +11,10 @@ class ProfileService {
         this.ProfileModel = new ProfileModel(this.Server).table;
     }
 
+    calculateAge(birthDate) {
+        return moment().diff(moment(birthDate, 'YYYY-MM-DD'), 'years');
+    }
+
     async inputData(data, userId) {
 
         const getProfile = await this.ProfileModel.findOne({
@@ -19,6 +24,8 @@ class ProfileService {
         })
 
         if (getProfile !== null) return -1;
+
+        const umur = this.calculateAge(data.tanggal_lahir);
 
         let ibmKategori = "";
 
@@ -36,11 +43,13 @@ class ProfileService {
 
         const inputProfile = await this.ProfileModel.create({
             user_id: userId,
-            usia: data.usia,
+            tanggal_lahir: data.tanggal_lahir,
+            usia: umur,
             tinggi: data.tinggi,
             berat: data.berat,
             jeniskelamin: data.jeniskelamin,
             ibm: ibmKategori,
+            aktivitas_id: data.aktivitas_id,
             created_at: new Date(),
             updated_at: new Date(),
         });
@@ -86,6 +95,8 @@ class ProfileService {
 
         if (getProfile === null) return -1;
 
+        const umur = this.calculateAge(data.tanggal_lahir);
+
         let ibmKategori = "";
 
         const countIbm = data.berat / ((data.tinggi / 100) * (data.tinggi / 100));
@@ -101,11 +112,13 @@ class ProfileService {
         }
 
         const updateProfile = await this.ProfileModel.update({
-            usia: data.usia,
+            tanggal_lahir: data.tanggal_lahir,
+            usia: umur,
             tinggi: data.tinggi,
             berat: data.berat,
             jeniskelamin: data.jeniskelamin,
             ibm: ibmKategori,
+            aktivitas_id: data.aktivitas_id,
             updated_at: new Date(),
         }, {
             where: {

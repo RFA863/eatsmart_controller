@@ -18,6 +18,11 @@ class ProfileModel {
                     allowNull: false,
                 },
 
+                tanggal_lahir: {
+                    type: DataTypes.DATE,
+                    allowNull: false
+                },
+
                 usia: {
                     type: DataTypes.INTEGER(3),
                     allowNull: false,
@@ -41,6 +46,11 @@ class ProfileModel {
                 ibm: {
                     type: DataTypes.STRING,
                     allowNull: false,
+                },
+
+                aktivitas_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false
                 },
 
                 created_at: {

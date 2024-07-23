@@ -3,10 +3,10 @@ class ProfileValidator {
         type: "object",
         properties: {
 
-            usia: {
-                type: "number",
-                maximum: 999,
-                minimum: 1,
+            tanggal_lahir: {
+                type: "string",
+                maxLength: 100,
+                minLength: 1,
                 nullable: false,
             },
 
@@ -29,7 +29,7 @@ class ProfileValidator {
                 nullable: false,
             },
         },
-        required: ["usia", "tinggi", "berat", "jeniskelamin"],
+        required: ["tanggal_lahir", "tinggi", "berat", "jeniskelamin"],
         additionalProperties: false,
     };
 }
