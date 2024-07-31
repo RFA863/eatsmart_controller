@@ -71,6 +71,22 @@ class ProfileValidator {
         required: ["bahan_makanan_id"],
         additionalProperties: false,
     }
+
+    inputWaktuMemasak = {
+        type: "object",
+        properties: {
+
+            waktu_memasak_id: {
+                type: "array",
+                minItems: 1,
+                items: { type: "number" },
+                nullable: false,
+            }
+        },
+
+        required: ["waktu_memasak_id"],
+        additionalProperties: false,
+    }
 }
 
 export default ProfileValidator;

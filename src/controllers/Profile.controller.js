@@ -224,6 +224,61 @@ class ProfileController {
 
         res.status(200).json(this.ResponsePreset.resOK("Ok", getWaktuMemasakSrv));
     }
+
+    async inputWaktuMemasakDetail(req, res) {
+
+        const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputWaktuMemasak)
+        if (!schemaValidate(req.body))
+            return res.status(400).json(this.ResponsePreset.resErr(
+                "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
+            ));
+
+        const data = req.body;
+        const { userId } = req.middlewares.authorization;
+
+        const inputWaktuMemasakDetailSrv = await this.ProfileService.inputWaktuMemasakDetail(data, userId);
+
+        if (inputWaktuMemasakDetailSrv === -1)
+            return res.status(404).json(this.ResponsePreset.resErr(
+                404, "User Not Found", "Service", { code: -1 }
+            ));
+
+        res.status(200).json(this.ResponsePreset.resOK("Ok", null));
+    }
+
+    async getWaktuMemasakDetail(req, res) {
+
+        const { userId } = req.middlewares.authorization;
+
+        const getWaktuMemasakDetailSrv = await this.ProfileService.getWaktuMemasakDetail(userId);
+
+        if (getWaktuMemasakDetailSrv === -1)
+            return res.status(404).json(this.ResponsePreset.resErr(
+                404, "User Not Found", "Servioce", { code: -1 }
+            ));
+
+        res.status(200).json(this.ResponsePreset.resOK("Ok", getWaktuMemasakDetailSrv));
+    }
+
+    async updateWaktuMemasakDetail(req, res) {
+        const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputWaktuMemasak)
+        if (!schemaValidate(req.body))
+            return res.status(400).json(this.ResponsePreset.resErr(
+                "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
+            ));
+
+        const data = req.body;
+        const { userId } = req.middlewares.authorization;
+
+        const updateWaktuMemasakDetailSrv = await this.ProfileService.updateWaktuMemasakDetail(data, userId);
+
+        if (updateWaktuMemasakDetailSrv === -1)
+            return res.status(404).json(this.ResponsePreset.resErr(
+                404, "User Not Found", "Service", { code: -1 }
+            ));
+
+        res.status(200).json(this.ResponsePreset.resOK("Ok", null));
+    }
 }
 
 export default ProfileController;

@@ -59,6 +59,14 @@ class ProfileRoute {
         this.API.get(this.routePrefix + "/get-waktu-memasak", this.AuthorizationMiddleware.check(),
             (req, res) => this.ProfileController.getWaktuMemasak(req, res));
 
+        this.API.post(this.routePrefix + "/input-waktu-memasak-detail", this.AuthorizationMiddleware.check(),
+            (req, res) => this.ProfileController.inputWaktuMemasakDetail(req, res));
+
+        this.API.get(this.routePrefix + "/get-waktu-memasak-detail", this.AuthorizationMiddleware.check(),
+            (req, res) => this.ProfileController.getWaktuMemasakDetail(req, res));
+
+        this.API.put(this.routePrefix + "/update-waktu-memasak-detail", this.AuthorizationMiddleware.check(),
+            (req, res) => this.ProfileController.updateWaktuMemasakDetail(req, res));
 
     }
 }

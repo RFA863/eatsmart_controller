@@ -119,6 +119,16 @@ INSERT INTO Waktu_memasak (waktu)
 VALUES ("30 Menit"), ("45 Menit"),
 ("60 Menit"), ("90 Menit"), ("120 Menit");
 
+CREATE TABLE Waktu_memasak_detail(
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    profile_id INT NOT NULL,
+    waktu_memasak_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (profile_id) REFERENCES Profile(id),
+    FOREIGN KEY (waktu_memasak_id) REFERENCES Waktu_memasak(id)
+);
+
 CREATE TABLE Menu (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nama VARCHAR(100) NOT NULL,

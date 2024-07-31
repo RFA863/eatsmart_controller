@@ -9,6 +9,7 @@ import LevelMemasakModel from '../models/LevelMemasak.model.js';
 import WaktuMemasakModel from "../models/WaktuMemasak.model.js";
 import PreferensiDietModel from '../models/PreferensiDiet.model.js';
 import BahanMakananDetailModel from '../models/BahanMakananDetail.model.js';
+import WaktuMemasakDetailModel from "../models/WaktuMemasakDetail.model.js";
 import PreferensiDietDetailModel from "../models/PreferensiDietDetail.model.js";
 
 class ProfileService {
@@ -24,6 +25,7 @@ class ProfileService {
         this.WaktuMemasakModel = new WaktuMemasakModel(this.Server).table;
         this.PreferensiDietModel = new PreferensiDietModel(this.Server).table;
         this.BahanMakananDetailModel = new BahanMakananDetailModel(this.Server).table;
+        this.WaktuMemasakDetailModel = new WaktuMemasakDetailModel(this.Server).table;
         this.PreferensiDietDetailModel = new PreferensiDietDetailModel(this.Server).table;
     }
 
@@ -385,6 +387,96 @@ class ProfileService {
         if (getWaktuMemasakModel.length === 0) return -1;
 
         return getWaktuMemasakModel;
+    }
+
+    async inputWaktuMemasakDetail(data, userId) {
+
+        const getProfileModel = await this.ProfileModel.findOne({
+            where: {
+                user_id: userId,
+            }
+        });
+
+        if (getProfileModel === null) return -1;
+
+        const cookstimes = data.waktu_memasak_id;
+
+        for (const cookstime of cookstimes) {
+            await this.WaktuMemasakDetailModel.create({
+                profile_id: getProfileModel.dataValues.id,
+                waktu_memasak_id: cookstime,
+                created_at: new Date(),
+                updated_at: new Date(),
+            });
+        };
+
+        return;
+    }
+
+    async getWaktuMemasakDetail(userId) {
+
+        this.ProfileModel.hasMany(this.WaktuMemasakDetailModel, {
+            foreignKey: "profile_id",
+        });
+        this.WaktuMemasakDetailModel.belongsTo(this.ProfileModel, {
+            foreignKey: "profile_id",
+        });
+
+        this.WaktuMemasakModel.hasMany(this.WaktuMemasakDetailModel, {
+            foreignKey: "waktu_memasak_id",
+        });
+        this.WaktuMemasakDetailModel.belongsTo(this.WaktuMemasakModel, {
+            foreignKey: "waktu_memasak_id",
+        });
+
+        const getProfileModel = await this.ProfileModel.findOne({
+            where: {
+                user_id: userId,
+            }
+        });
+
+        if (getProfileModel === null) return -1;
+
+        const getWaktuMemasakDetailModel = await this.WaktuMemasakDetailModel.findAll({
+            where: {
+                profile_id: getProfileModel.dataValues.id
+            }, include: [
+                { model: this.ProfileModel },
+                { model: this.WaktuMemasakModel }
+            ]
+        });
+
+        return getWaktuMemasakDetailModel;
+    }
+
+    async updateWaktuMemasakDetail(data, userId) {
+
+        const getProfileModel = await this.ProfileModel.findOne({
+            where: {
+                user_id: userId
+            }
+        });
+
+        if (getProfileModel === null) return -1;
+
+        await this.WaktuMemasakDetailModel.destroy({
+            where: {
+                profile_id: getProfileModel.dataValues.id
+            }
+        });
+
+        const cookstimes = data.waktu_memasak_id;
+
+        for (const cookstime of cookstimes) {
+            await this.WaktuMemasakDetailModel.create({
+                profile_id: getProfileModel.dataValues.id,
+                waktu_memasak_id: cookstime,
+                created_at: new Date(),
+                updated_at: new Date()
+            });
+        };
+
+        return;
     }
 }
 
