@@ -55,6 +55,22 @@ class ProfileValidator {
         required: ["preferensi_diet_id"],
         additionalProperties: false,
     }
+
+    inputBahanMakanan = {
+        type: "object",
+        properties: {
+
+            bahan_makanan_id: {
+                type: "array",
+                minItems: 1,
+                items: { type: "number" },
+                nullable: false,
+            }
+        },
+
+        required: ["bahan_makanan_id"],
+        additionalProperties: false,
+    }
 }
 
 export default ProfileValidator;

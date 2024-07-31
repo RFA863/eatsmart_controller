@@ -15,33 +15,51 @@ class ProfileRoute {
     route() {
 
         this.API.get(this.routePrefix + "/get-aktivitas", this.AuthorizationMiddleware.check(),
-            (req, res) => this.ProfileController.getAktivitas(req, res)
-        );
+            (req, res) => this.ProfileController.getAktivitas(req, res));
 
         this.API.post(this.routePrefix + "/input", this.AuthorizationMiddleware.check(),
-            (req, res) => this.ProfileController.input(req, res)
-        );
+            (req, res) => this.ProfileController.input(req, res));
 
         this.API.get(this.routePrefix + "/get", this.AuthorizationMiddleware.check(),
-            (req, res) => this.ProfileController.get(req, res)
-        );
+            (req, res) => this.ProfileController.get(req, res));
 
         this.API.put(this.routePrefix + "/update", this.AuthorizationMiddleware.check(),
-            (req, res) => this.ProfileController.update(req, res)
-        );
+            (req, res) => this.ProfileController.update(req, res));
 
         this.API.get(this.routePrefix + "/get-tujuan-diet", this.AuthorizationMiddleware.check(),
-            (req, res) => this.ProfileController.getTujuanDiet(req, res)
-        );
+            (req, res) => this.ProfileController.getTujuanDiet(req, res));
 
         this.API.get(this.routePrefix + "/get-preferensi-diet", this.AuthorizationMiddleware.check(),
-            (req, res) => this.ProfileController.getPreferensiDiet(req, res)
-        );
-
+            (req, res) => this.ProfileController.getPreferensiDiet(req, res));
 
         this.API.post(this.routePrefix + "/input-preferensi-diet-detail", this.AuthorizationMiddleware.check(),
-            (req, res) => this.ProfileController.inputPreferensiDietDetail(req, res)
-        );
+            (req, res) => this.ProfileController.inputPreferensiDietDetail(req, res));
+
+        this.API.get(this.routePrefix + "/get-preferensi-diet-detail", this.AuthorizationMiddleware.check(),
+            (req, res) => this.ProfileController.getPreferensiDietDetail(req, res));
+
+        this.API.put(this.routePrefix + "/update-preferensi-diet-detail", this.AuthorizationMiddleware.check(),
+            (req, res) => this.ProfileController.updatePreferensiDietDetail(req, res));
+
+        this.API.get(this.routePrefix + "/get-bahan-makanan", this.AuthorizationMiddleware.check(),
+            (req, res) => this.ProfileController.getBahanMakanan(req, res));
+
+        this.API.post(this.routePrefix + "/input-bahan-makanan-detail", this.AuthorizationMiddleware.check(),
+            (req, res) => this.ProfileController.inputBahanMakananDetail(req, res));
+
+        this.API.get(this.routePrefix + "/get-bahan-makanan-detail", this.AuthorizationMiddleware.check(),
+            (req, res) => this.ProfileController.getBahanMakananDetail(req, res));
+
+        this.API.put(this.routePrefix + "/update-bahan-makanan-detail", this.AuthorizationMiddleware.check(),
+            (req, res) => this.ProfileController.updateBahanMakananDetail(req, res));
+
+        this.API.get(this.routePrefix + "/get-level-memasak", this.AuthorizationMiddleware.check(),
+            (req, res) => this.ProfileController.getLevelMemasak(req, res));
+
+        this.API.get(this.routePrefix + "/get-waktu-memasak", this.AuthorizationMiddleware.check(),
+            (req, res) => this.ProfileController.getWaktuMemasak(req, res));
+
+
     }
 }
 

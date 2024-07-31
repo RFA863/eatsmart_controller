@@ -73,6 +73,52 @@ CREATE TABLE Preferensi_diet_detail (
     FOREIGN KEY (preferensi_diet_id) REFERENCES Preferensi_diet(id)
 );
 
+CREATE TABLE Bahan_makanan (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    bahan VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO Bahan_makanan (bahan) 
+VALUES ("Daging Ayam"), ("Daging Sapi"),
+("Daging Kambing"), ("Daging Bebek"),
+("Ikan "), ("Udang"), ("Kepiting"),
+("Lobster"), ("Cumi-cumi"), ("Tahu"),
+("Tempe"), ("Kacang Kedelai"), ("Kacang Merah");
+
+CREATE TABLE Bahan_makanan_detail (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    profile_id INT NOT NULL,
+    bahan_makanan_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (profile_id) REFERENCES Profile(id),
+    FOREIGN KEY (bahan_makanan_id) REFERENCES Bahan_makanan(id)
+);
+
+CREATE TABLE Level_memasak (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    level VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO Level_memasak (level)
+VALUES ("Mudah"),
+("Sedang"), ("Sulit");
+
+CREATE TABLE Waktu_memasak (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    waktu VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO Waktu_memasak (waktu)
+VALUES ("30 Menit"), ("45 Menit"),
+("60 Menit"), ("90 Menit"), ("120 Menit");
+
 CREATE TABLE Menu (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     nama VARCHAR(100) NOT NULL,

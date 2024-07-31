@@ -4,7 +4,11 @@ import UserModel from "../models/User.model.js";
 import ProfileModel from "../models/Profile.model.js";
 import AktifitasModel from "../models/Aktivitas.model.js";
 import TujuanDietModel from '../models/TujuanDiet.model.js';
+import BahanMakananModel from '../models/BahanMakanan.model.js';
+import LevelMemasakModel from '../models/LevelMemasak.model.js';
+import WaktuMemasakModel from "../models/WaktuMemasak.model.js";
 import PreferensiDietModel from '../models/PreferensiDiet.model.js';
+import BahanMakananDetailModel from '../models/BahanMakananDetail.model.js';
 import PreferensiDietDetailModel from "../models/PreferensiDietDetail.model.js";
 
 class ProfileService {
@@ -15,7 +19,11 @@ class ProfileService {
         this.ProfileModel = new ProfileModel(this.Server).table;
         this.AktifitasModel = new AktifitasModel(this.Server).table;
         this.TujuanDietModel = new TujuanDietModel(this.Server).table;
+        this.BahanMakananModel = new BahanMakananModel(this.Server).table;
+        this.LevelMemasakModel = new LevelMemasakModel(this.Server).table;
+        this.WaktuMemasakModel = new WaktuMemasakModel(this.Server).table;
         this.PreferensiDietModel = new PreferensiDietModel(this.Server).table;
+        this.BahanMakananDetailModel = new BahanMakananDetailModel(this.Server).table;
         this.PreferensiDietDetailModel = new PreferensiDietDetailModel(this.Server).table;
     }
 
@@ -187,6 +195,196 @@ class ProfileService {
         };
 
         return;
+    }
+
+    async getPreferensiDietDetail(userId) {
+
+        this.ProfileModel.hasMany(this.PreferensiDietDetailModel, {
+            foreignKey: "profile_id",
+        });
+        this.PreferensiDietDetailModel.belongsTo(this.ProfileModel, {
+            foreignKey: "profile_id",
+        });
+
+        this.PreferensiDietModel.hasMany(this.PreferensiDietDetailModel, {
+            foreignKey: "preferensi_diet_id",
+        });
+        this.PreferensiDietDetailModel.belongsTo(this.PreferensiDietModel, {
+            foreignKey: 'preferensi_diet_id',
+        });
+
+        const getProfileModel = await this.ProfileModel.findOne({
+            where: {
+                user_id: userId,
+            }
+        });
+
+        if (getProfileModel === null) return -1;
+
+        const getPreferensiDietDetailModel = await this.PreferensiDietDetailModel.findAll({
+            where: {
+                profile_id: getProfileModel.dataValues.id
+            }, include: [
+                {
+                    model: this.ProfileModel,
+
+                },
+                {
+                    model: this.PreferensiDietModel,
+
+                }
+            ]
+        });
+
+        return getPreferensiDietDetailModel;
+    }
+
+    async updatePreferensiDietDetail(data, userId) {
+        const getProfileModel = await this.ProfileModel.findOne({
+            where: {
+                user_id: userId,
+            }
+        });
+
+        if (getProfileModel === null) return -1;
+
+
+        const profileId = getProfileModel.dataValues.id;
+        const preferenses = data.preferensi_diet_id;
+
+        await this.PreferensiDietDetailModel.destroy({
+            where: {
+                profile_id: profileId,
+            }
+        });
+
+        for (const preferense of preferenses) {
+
+            await this.PreferensiDietDetailModel.create({
+                profile_id: profileId,
+                preferensi_diet_id: preferense,
+                created_at: new Date(),
+                updated_at: new Date(),
+            });
+        }
+
+        return;
+
+    }
+
+    async getBahanMakanan() {
+        const getBahanMakananModel = await this.BahanMakananModel.findAll();
+
+        if (getBahanMakananModel.length === 0) return -1;
+
+        return getBahanMakananModel;
+    }
+
+    async inputBahanMakananDetail(data, userId) {
+        const getProfileModel = await this.ProfileModel.findOne({
+            where: {
+                user_id: userId,
+            }
+        });
+
+        if (getProfileModel === null) return -1;
+
+        const materials = data.bahan_makanan_id;
+
+        for (const material of materials) {
+            await this.BahanMakananDetailModel.create({
+                profile_id: getProfileModel.dataValues.id,
+                bahan_makanan_id: material,
+                created_at: new Date(),
+                updated_at: new Date(),
+            });
+        };
+
+        return;
+    }
+
+    async getBahanMakanDetail(userId) {
+
+        this.ProfileModel.hasMany(this.BahanMakananDetailModel, {
+            foreignKey: "profile_id"
+        });
+        this.BahanMakananDetailModel.belongsTo(this.ProfileModel, {
+            foreignKey: "profile_id"
+        });
+
+        this.BahanMakananModel.hasMany(this.BahanMakananDetailModel, {
+            foreignKey: "bahan_makanan_id"
+        });
+        this.BahanMakananDetailModel.belongsTo(this.BahanMakananModel, {
+            foreignKey: "bahan_makanan_id"
+        })
+
+        const getProfileModel = await this.ProfileModel.findOne({
+            where: {
+                user_id: userId
+            }
+        });
+
+        if (getProfileModel === null) return -1;
+
+        const getBahanMakananDetailModel = await this.BahanMakananDetailModel.findAll({
+            where: {
+                profile_id: getProfileModel.dataValues.id
+            }, include: [
+                { model: this.ProfileModel },
+                { model: this.BahanMakananModel }
+            ]
+        });
+
+        return getBahanMakananDetailModel;
+    }
+
+    async updateBahanMakananDetail(data, userId) {
+
+        const getProfileModel = await this.ProfileModel.findOne({
+            where: {
+                user_id: userId
+            }
+        });
+
+        if (getProfileModel === null) return -1;
+
+        await this.BahanMakananDetailModel.destroy({
+            where: {
+                profile_id: getProfileModel.dataValues.id
+            }
+        });
+
+        const materials = data.bahan_makanan_id;
+
+        for (const material of materials) {
+            await this.BahanMakananDetailModel.create({
+                profile_id: getProfileModel.dataValues.id,
+                bahan_makanan_id: material,
+                created_at: new Date(),
+                updated_at: new Date(),
+            });
+        };
+
+        return;
+    }
+
+    async getLevelMemasak() {
+
+        const getLevelMemasakModel = await this.LevelMemasakModel.findAll();
+
+        if (getLevelMemasakModel.length === 0) return -1;
+
+        return getLevelMemasakModel;
+    }
+
+    async getWaktuMemasak() {
+
+        const getWaktuMemasakModel = await this.WaktuMemasakModel.findAll();
+
+        if (getWaktuMemasakModel.length === 0) return -1;
+
+        return getWaktuMemasakModel;
     }
 }
 
