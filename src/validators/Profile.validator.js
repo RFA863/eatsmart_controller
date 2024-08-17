@@ -34,31 +34,13 @@ class ProfileValidator {
                 type: "number",
                 minimum: 1,
                 nullable: false
-            }
-        },
-        required: ["tanggal_lahir", "tinggi", "berat", "jeniskelamin", "aktivitas_id"],
-        additionalProperties: false,
-    }
+            },
 
-    inputPreferensi = {
-        type: "object",
-        properties: {
-
-            preferensi_diet_id: {
-                type: "array",
-                minItems: 1,
-                items: { type: "number" },
-                nullable: false,
-            }
-        },
-
-        required: ["preferensi_diet_id"],
-        additionalProperties: false,
-    }
-
-    inputBahanMakanan = {
-        type: "object",
-        properties: {
+            tujuan_diet_id: {
+                type: "number",
+                minimum: 1,
+                nullable: false
+            },
 
             bahan_makanan_id: {
                 type: "array",
@@ -67,26 +49,59 @@ class ProfileValidator {
                 nullable: false,
             }
         },
-
-        required: ["bahan_makanan_id"],
+        required: ["tanggal_lahir", "tinggi", "berat", "jeniskelamin", "aktivitas_id", "tujuan_diet_id", "bahan_makanan_id"],
         additionalProperties: false,
     }
 
-    inputWaktuMemasak = {
-        type: "object",
-        properties: {
+    // inputBahanMakanan = {
+    //     type: "object",
+    //     properties: {
 
-            waktu_memasak_id: {
-                type: "array",
-                minItems: 1,
-                items: { type: "number" },
-                nullable: false,
-            }
-        },
+    //         bahan_makanan_id: {
+    //             type: "array",
+    //             minItems: 1,
+    //             items: { type: "number" },
+    //             nullable: false,
+    //         }
+    //     },
 
-        required: ["waktu_memasak_id"],
-        additionalProperties: false,
-    }
+    //     required: ["bahan_makanan_id"],
+    //     additionalProperties: false,
+    // }
+
+
+    // inputPreferensi = {
+    //     type: "object",
+    //     properties: {
+
+    //         preferensi_diet_id: {
+    //             type: "array",
+    //             minItems: 1,
+    //             items: { type: "number" },
+    //             nullable: false,
+    //         }
+    //     },
+
+    //     required: ["preferensi_diet_id"],
+    //     additionalProperties: false,
+    // }
+
+
+    // inputWaktuMemasak = {
+    //     type: "object",
+    //     properties: {
+
+    //         waktu_memasak_id: {
+    //             type: "array",
+    //             minItems: 1,
+    //             items: { type: "number" },
+    //             nullable: false,
+    //         }
+    //     },
+
+    //     required: ["waktu_memasak_id"],
+    //     additionalProperties: false,
+    // }
 }
 
 export default ProfileValidator;

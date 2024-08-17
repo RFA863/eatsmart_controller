@@ -24,10 +24,17 @@ class AuthValidator {
                 nullable: false,
             },
 
+            confirmPassword: {
+                type: "string",
+                maxLength: 100,
+                minLength: 1,
+                nullable: false,
+            },
+
 
         },
 
-        required: ["username", "email", "password"],
+        required: ["username", "email", "password", "confirmPassword"],
         additionalProperties: false,
     };
 }

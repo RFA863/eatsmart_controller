@@ -20,6 +20,23 @@ class ProfileController {
         res.status(200).json(this.ResponsePreset.resOK("Ok", getAktifitasSrv));
     }
 
+    async getTujuanDiet(req, res) {
+        const getTujuanDietSrv = await this.ProfileService.getTujuanDiet();
+
+        res.status(200).json(this.ResponsePreset.resOK("OK", getTujuanDietSrv));
+    }
+
+    async getBahanMakanan(req, res) {
+        const getBahanMakananSrv = await this.ProfileService.getBahanMakanan();
+
+        if (getBahanMakananSrv === -1)
+            return res.status(404).json(this.ResponsePreset.resErr(
+                404, "Data is Emty", "Service", { code: -1 }
+            ));
+
+        res.status(200).json(this.ResponsePreset.resOK("Ok", getBahanMakananSrv));
+    }
+
     async input(req, res) {
 
         const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputProfile)
@@ -75,210 +92,197 @@ class ProfileController {
         res.status(200).json(this.ResponsePreset.resOK("Ok", null));
     }
 
-    async getTujuanDiet(req, res) {
-        const getTujuanDietSrv = await this.ProfileService.getTujuanDiet();
 
-        res.status(200).json(this.ResponsePreset.resOK("OK", getTujuanDietSrv));
-    }
 
-    async getPreferensiDiet(req, res) {
-        const getPreferensiDietSrv = await this.ProfileService.getPreferensiDiet();
+    // async getPreferensiDiet(req, res) {
+    //     const getPreferensiDietSrv = await this.ProfileService.getPreferensiDiet();
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", getPreferensiDietSrv));
-    }
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", getPreferensiDietSrv));
+    // }
 
-    async inputPreferensiDietDetail(req, res) {
+    // async inputPreferensiDietDetail(req, res) {
 
-        const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputPreferensi)
-        if (!schemaValidate(req.body))
-            return res.status(400).json(this.ResponsePreset.resErr(
-                "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
-            ));
+    //     const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputPreferensi)
+    //     if (!schemaValidate(req.body))
+    //         return res.status(400).json(this.ResponsePreset.resErr(
+    //             "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
+    //         ));
 
-        const data = req.body;
-        const { userId } = req.middlewares.authorization;
+    //     const data = req.body;
+    //     const { userId } = req.middlewares.authorization;
 
-        const inputPreferensiDietDetailSrv = await this.ProfileService.inputPreferensiDietDetail(data, userId);
+    //     const inputPreferensiDietDetailSrv = await this.ProfileService.inputPreferensiDietDetail(data, userId);
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", null));
-    }
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", null));
+    // }
 
-    async getPreferensiDietDetail(req, res) {
+    // async getPreferensiDietDetail(req, res) {
 
-        const { userId } = req.middlewares.authorization;
+    //     const { userId } = req.middlewares.authorization;
 
-        const getPreferensiDietDetailSrv = await this.ProfileService.getPreferensiDietDetail(userId);
+    //     const getPreferensiDietDetailSrv = await this.ProfileService.getPreferensiDietDetail(userId);
 
-        if (getPreferensiDietDetailSrv === -1)
-            return res.status(404).json(this.ResponsePreset.resErr(
-                404, "User Not Found", "Service", { code: -1 }
-            ));
+    //     if (getPreferensiDietDetailSrv === -1)
+    //         return res.status(404).json(this.ResponsePreset.resErr(
+    //             404, "User Not Found", "Service", { code: -1 }
+    //         ));
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", getPreferensiDietDetailSrv));
-    }
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", getPreferensiDietDetailSrv));
+    // }
 
-    async updatePreferensiDietDetail(req, res) {
+    // async updatePreferensiDietDetail(req, res) {
 
-        const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputPreferensi)
-        if (!schemaValidate(req.body))
-            return res.status(400).json(this.ResponsePreset.resErr(
-                "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
-            ));
+    //     const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputPreferensi)
+    //     if (!schemaValidate(req.body))
+    //         return res.status(400).json(this.ResponsePreset.resErr(
+    //             "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
+    //         ));
 
-        const data = req.body;
-        const { userId } = req.middlewares.authorization;
+    //     const data = req.body;
+    //     const { userId } = req.middlewares.authorization;
 
-        const updatePreferensiDietDetailSrv = await this.ProfileService.updatePreferensiDietDetail(data, userId);
+    //     const updatePreferensiDietDetailSrv = await this.ProfileService.updatePreferensiDietDetail(data, userId);
 
-        if (updatePreferensiDietDetailSrv === -1)
-            return res.status(404).json(this.ResponsePreset.resErr(
-                404, "User Not Found", "Service", { code: -1 }
-            ));
+    //     if (updatePreferensiDietDetailSrv === -1)
+    //         return res.status(404).json(this.ResponsePreset.resErr(
+    //             404, "User Not Found", "Service", { code: -1 }
+    //         ));
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", null));
-    }
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", null));
+    // }
 
-    async getBahanMakanan(req, res) {
-        const getBahanMakananSrv = await this.ProfileService.getBahanMakanan();
 
-        if (getBahanMakananSrv === -1)
-            return res.status(404).json(this.ResponsePreset.resErr(
-                404, "Data is Emty", "Service", { code: -1 }
-            ));
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", getBahanMakananSrv));
-    }
+    // async inputBahanMakananDetail(req, res) {
+    //     const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputBahanMakanan)
+    //     if (!schemaValidate(req.body))
+    //         return res.status(400).json(this.ResponsePreset.resErr(
+    //             "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
+    //         ));
 
-    async inputBahanMakananDetail(req, res) {
-        const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputBahanMakanan)
-        if (!schemaValidate(req.body))
-            return res.status(400).json(this.ResponsePreset.resErr(
-                "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
-            ));
+    //     const data = req.body;
+    //     const { userId } = req.middlewares.authorization;
 
-        const data = req.body;
-        const { userId } = req.middlewares.authorization;
+    //     const inputBahanMakananDetailSrv = await this.ProfileService.inputBahanMakananDetail(data, userId);
 
-        const inputBahanMakananDetailSrv = await this.ProfileService.inputBahanMakananDetail(data, userId);
+    //     if (inputBahanMakananDetailSrv === -1)
+    //         return res.status(404).json(this.ResponsePreset.resErr(
+    //             404, "User Not Found", "Service", { code: -1 }
+    //         ));
 
-        if (inputBahanMakananDetailSrv === -1)
-            return res.status(404).json(this.ResponsePreset.resErr(
-                404, "User Not Found", "Service", { code: -1 }
-            ));
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", null));
+    // }
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", null));
-    }
+    // async getBahanMakananDetail(req, res) {
+    //     const { userId } = req.middlewares.authorization;
 
-    async getBahanMakananDetail(req, res) {
-        const { userId } = req.middlewares.authorization;
+    //     const getBahanMakananDetailSrv = await this.ProfileService.getBahanMakanDetail(userId);
 
-        const getBahanMakananDetailSrv = await this.ProfileService.getBahanMakanDetail(userId);
+    //     if (getBahanMakananDetailSrv === -1)
+    //         return res.status(404).json(this.ResponsePreset.resErr(
+    //             404, "User Not Found", "Service", { code: -1 }
+    //         ));
 
-        if (getBahanMakananDetailSrv === -1)
-            return res.status(404).json(this.ResponsePreset.resErr(
-                404, "User Not Found", "Service", { code: -1 }
-            ));
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", getBahanMakananDetailSrv));
+    // }
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", getBahanMakananDetailSrv));
-    }
+    // async updateBahanMakananDetail(req, res) {
+    //     const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputBahanMakanan)
+    //     if (!schemaValidate(req.body))
+    //         return res.status(400).json(this.ResponsePreset.resErr(
+    //             "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
+    //         ));
 
-    async updateBahanMakananDetail(req, res) {
-        const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputBahanMakanan)
-        if (!schemaValidate(req.body))
-            return res.status(400).json(this.ResponsePreset.resErr(
-                "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
-            ));
+    //     const data = req.body;
+    //     const { userId } = req.middlewares.authorization;
 
-        const data = req.body;
-        const { userId } = req.middlewares.authorization;
+    //     const updateBahanMakananDetailSrv = await this.ProfileService.updateBahanMakananDetail(data, userId);
 
-        const updateBahanMakananDetailSrv = await this.ProfileService.updateBahanMakananDetail(data, userId);
+    //     if (updateBahanMakananDetailSrv === -1)
+    //         return res.status(404).json(this.ResponsePreset.resErr(
+    //             404, "User Not Found", "Service", { code: -1 }
+    //         ));
 
-        if (updateBahanMakananDetailSrv === -1)
-            return res.status(404).json(this.ResponsePreset.resErr(
-                404, "User Not Found", "Service", { code: -1 }
-            ));
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", null));
+    // }
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", null));
-    }
+    // async getLevelMemasak(req, res) {
+    //     const getLevelMemasakSrv = await this.ProfileService.getLevelMemasak();
 
-    async getLevelMemasak(req, res) {
-        const getLevelMemasakSrv = await this.ProfileService.getLevelMemasak();
+    //     if (getLevelMemasakSrv === -1)
+    //         return res.status(404).json(this.ResponsePreset.resErr(
+    //             404, "Data is Emty", "Service", { code: -1 }
+    //         ));
 
-        if (getLevelMemasakSrv === -1)
-            return res.status(404).json(this.ResponsePreset.resErr(
-                404, "Data is Emty", "Service", { code: -1 }
-            ));
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", getLevelMemasakSrv));
+    // }
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", getLevelMemasakSrv));
-    }
+    // async getWaktuMemasak(req, res) {
 
-    async getWaktuMemasak(req, res) {
+    //     const getWaktuMemasakSrv = await this.ProfileService.getWaktuMemasak();
 
-        const getWaktuMemasakSrv = await this.ProfileService.getWaktuMemasak();
+    //     if (getWaktuMemasakSrv === -1)
+    //         return res.status(404).json(this.ResponsePreset.resErr(
+    //             404, "Data is Emty", "Service", { code: -1 }
+    //         ));
 
-        if (getWaktuMemasakSrv === -1)
-            return res.status(404).json(this.ResponsePreset.resErr(
-                404, "Data is Emty", "Service", { code: -1 }
-            ));
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", getWaktuMemasakSrv));
+    // }
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", getWaktuMemasakSrv));
-    }
+    // async inputWaktuMemasakDetail(req, res) {
 
-    async inputWaktuMemasakDetail(req, res) {
+    //     const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputWaktuMemasak)
+    //     if (!schemaValidate(req.body))
+    //         return res.status(400).json(this.ResponsePreset.resErr(
+    //             "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
+    //         ));
 
-        const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputWaktuMemasak)
-        if (!schemaValidate(req.body))
-            return res.status(400).json(this.ResponsePreset.resErr(
-                "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
-            ));
+    //     const data = req.body;
+    //     const { userId } = req.middlewares.authorization;
 
-        const data = req.body;
-        const { userId } = req.middlewares.authorization;
+    //     const inputWaktuMemasakDetailSrv = await this.ProfileService.inputWaktuMemasakDetail(data, userId);
 
-        const inputWaktuMemasakDetailSrv = await this.ProfileService.inputWaktuMemasakDetail(data, userId);
+    //     if (inputWaktuMemasakDetailSrv === -1)
+    //         return res.status(404).json(this.ResponsePreset.resErr(
+    //             404, "User Not Found", "Service", { code: -1 }
+    //         ));
 
-        if (inputWaktuMemasakDetailSrv === -1)
-            return res.status(404).json(this.ResponsePreset.resErr(
-                404, "User Not Found", "Service", { code: -1 }
-            ));
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", null));
+    // }
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", null));
-    }
+    // async getWaktuMemasakDetail(req, res) {
 
-    async getWaktuMemasakDetail(req, res) {
+    //     const { userId } = req.middlewares.authorization;
 
-        const { userId } = req.middlewares.authorization;
+    //     const getWaktuMemasakDetailSrv = await this.ProfileService.getWaktuMemasakDetail(userId);
 
-        const getWaktuMemasakDetailSrv = await this.ProfileService.getWaktuMemasakDetail(userId);
+    //     if (getWaktuMemasakDetailSrv === -1)
+    //         return res.status(404).json(this.ResponsePreset.resErr(
+    //             404, "User Not Found", "Servioce", { code: -1 }
+    //         ));
 
-        if (getWaktuMemasakDetailSrv === -1)
-            return res.status(404).json(this.ResponsePreset.resErr(
-                404, "User Not Found", "Servioce", { code: -1 }
-            ));
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", getWaktuMemasakDetailSrv));
+    // }
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", getWaktuMemasakDetailSrv));
-    }
+    // async updateWaktuMemasakDetail(req, res) {
+    //     const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputWaktuMemasak)
+    //     if (!schemaValidate(req.body))
+    //         return res.status(400).json(this.ResponsePreset.resErr(
+    //             "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
+    //         ));
 
-    async updateWaktuMemasakDetail(req, res) {
-        const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputWaktuMemasak)
-        if (!schemaValidate(req.body))
-            return res.status(400).json(this.ResponsePreset.resErr(
-                "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
-            ));
+    //     const data = req.body;
+    //     const { userId } = req.middlewares.authorization;
 
-        const data = req.body;
-        const { userId } = req.middlewares.authorization;
+    //     const updateWaktuMemasakDetailSrv = await this.ProfileService.updateWaktuMemasakDetail(data, userId);
 
-        const updateWaktuMemasakDetailSrv = await this.ProfileService.updateWaktuMemasakDetail(data, userId);
+    //     if (updateWaktuMemasakDetailSrv === -1)
+    //         return res.status(404).json(this.ResponsePreset.resErr(
+    //             404, "User Not Found", "Service", { code: -1 }
+    //         ));
 
-        if (updateWaktuMemasakDetailSrv === -1)
-            return res.status(404).json(this.ResponsePreset.resErr(
-                404, "User Not Found", "Service", { code: -1 }
-            ));
-
-        res.status(200).json(this.ResponsePreset.resOK("Ok", null));
-    }
+    //     res.status(200).json(this.ResponsePreset.resOK("Ok", null));
+    // }
 }
 
 export default ProfileController;

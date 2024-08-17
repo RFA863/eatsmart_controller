@@ -23,6 +23,26 @@ class MenuModel {
                     allowNull: false,
                 },
 
+                protein: {
+                    type: DataTypes.INTEGER(5),
+                    allowNull: false,
+                },
+
+                lemak: {
+                    type: DataTypes.INTEGER(5),
+                    allowNull: false,
+                },
+
+                karbohidrat: {
+                    type: DataTypes.INTEGER(5),
+                    allowNull: false,
+                },
+
+                deskripsi: {
+                    type: DataTypes.TEXT,
+                    allowNull: false,
+                },
+
                 detail: {
                     type: DataTypes.TEXT,
                     allowNull: false,
@@ -30,6 +50,16 @@ class MenuModel {
 
                 gambar: {
                     type: DataTypes.STRING(100),
+                    allowNull: false,
+                },
+
+                kategori_makanan_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                },
+
+                bahan_makanan_id: {
+                    type: DataTypes.INTEGER,
                     allowNull: false,
                 },
 

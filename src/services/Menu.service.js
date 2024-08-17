@@ -40,6 +40,8 @@ class MenuService {
         const mimeType = mime.getType(imgPath);  // Mendapatkan MIME type dari file gambar
         return { imgPath, mimeType };
     }
+
+
 }
 
 export default MenuService;

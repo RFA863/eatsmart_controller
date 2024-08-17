@@ -1,10 +1,10 @@
 import { DataTypes } from "sequelize";
 
-class AktivitasModel {
+class KategoriMakananModel {
     constructor(Server) {
         const table = Server.model.db.define(
 
-            "aktivitas",
+            "kategori_makanan",
             {
                 id: {
                     type: DataTypes.INTEGER,
@@ -13,13 +13,8 @@ class AktivitasModel {
                     autoIncrement: true,
                 },
 
-                aktivitas: {
+                kategori: {
                     type: DataTypes.STRING(100),
-                    allowNull: false,
-                },
-
-                faktor_aktivitas: {
-                    type: DataTypes.FLOAT,
                     allowNull: false,
                 },
 
@@ -37,7 +32,7 @@ class AktivitasModel {
             },
 
             {
-                tableName: "aktivitas",
+                tableName: "kategori_makanan",
                 timestamps: false,
             }
 
@@ -48,4 +43,4 @@ class AktivitasModel {
     }
 }
 
-export default AktivitasModel;
+export default KategoriMakananModel;

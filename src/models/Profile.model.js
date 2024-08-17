@@ -1,3 +1,4 @@
+import types from "mime/types/standard.js";
 import { DataTypes } from "sequelize";
 
 class ProfileModel {
@@ -48,7 +49,22 @@ class ProfileModel {
                     allowNull: false,
                 },
 
+                bmr: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                },
+
+                total_kalori: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                },
+
                 aktivitas_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false
+                },
+
+                tujuan_diet_id: {
                     type: DataTypes.INTEGER,
                     allowNull: false
                 },

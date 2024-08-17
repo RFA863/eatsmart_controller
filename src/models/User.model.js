@@ -18,6 +18,7 @@ class UserModel {
                     allowNull: false,
                 },
 
+
                 email: {
                     type: DataTypes.STRING(100),
                     allowNull: false,

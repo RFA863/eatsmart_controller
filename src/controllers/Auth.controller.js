@@ -27,6 +27,11 @@ class AuthController {
 
         const regisSrv = await this.AuthService.register(data);
 
+        if (regisSrv === -1)
+            return res.status(400).json(this.ResponsePreset.resErr(
+                400, "Bad Request, Password and confirmation password do not match.", "service", { code: -1 }
+            ));
+
         res.status(200).json(this.ResponsePreset.resOK("Ok", regisSrv));
     }
 

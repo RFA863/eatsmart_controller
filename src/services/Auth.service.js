@@ -4,6 +4,7 @@ import { Op } from "sequelize";
 
 import UserModel from "../models/User.model.js";
 
+
 class AuthService {
     constructor(Server) {
         this.Server = Server;
@@ -20,7 +21,12 @@ class AuthService {
 
     async register(data) {
 
-        const hashedPassword = await bcrypt.hash(data.password, 10);
+        const password = data.password;
+        const confirmPassword = data.confirmPassword;
+
+        if (password !== confirmPassword) return -1;
+
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const regisUser = await this.UserModel.create({
             username: data.username,
@@ -29,6 +35,8 @@ class AuthService {
             created_at: new Date(),
             updated_at: new Date(),
         });
+
+
 
         return regisUser;
     }

@@ -1,10 +1,10 @@
 import { DataTypes } from "sequelize";
 
-class AktivitasModel {
+class ProfileDetailModel {
     constructor(Server) {
         const table = Server.model.db.define(
 
-            "aktivitas",
+            "profile_detail",
             {
                 id: {
                     type: DataTypes.INTEGER,
@@ -13,14 +13,19 @@ class AktivitasModel {
                     autoIncrement: true,
                 },
 
-                aktivitas: {
-                    type: DataTypes.STRING(100),
+                profile_id: {
+                    type: DataTypes.INTEGER,
                     allowNull: false,
                 },
 
-                faktor_aktivitas: {
-                    type: DataTypes.FLOAT,
-                    allowNull: false,
+                tujuan_diet_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: true,
+                },
+
+                level_memasak_id: {
+                    type: DataTypes.INTEGER,
+                    allowNull: true,
                 },
 
                 created_at: {
@@ -37,7 +42,7 @@ class AktivitasModel {
             },
 
             {
-                tableName: "aktivitas",
+                tableName: "profile_detail",
                 timestamps: false,
             }
 
@@ -48,4 +53,4 @@ class AktivitasModel {
     }
 }
 
-export default AktivitasModel;
+export default ProfileDetailModel;
