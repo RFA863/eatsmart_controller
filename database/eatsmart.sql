@@ -106,6 +106,17 @@ CREATE TABLE Menu (
     FOREIGN KEY (bahan_makanan_id) REFERENCES Bahan_makanan(id)
 );
 
+CREATE TABLE Rekomendasi (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    profile_id INT NOT NULL,
+    menu_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (profile_id) REFERENCES Profile(id),
+    FOREIGN KEY (menu_id) REFERENCES menu(id)
+    
+);
+
 -- CREATE TABLE Preferensi_diet (
 --     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 --     preferensi VARCHAR(100) NOT NULL,

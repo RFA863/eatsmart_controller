@@ -11,7 +11,14 @@ class MenuController {
 
     async getData(req, res) {
 
-        const getDataSrv = await this.MenuService.getData();
+        const { userId } = req.middlewares.authorization;
+
+        const getDataSrv = await this.MenuService.getData(userId);
+
+        if (getDataSrv === -1)
+            return res.status(404).json(this.ResponsePreset.resErr(
+                404, "User Not Found", "Service", { code: -1 }
+            ));
 
         res.status(200).json(this.ResponsePreset.resOK("Ok", getDataSrv));
     }
