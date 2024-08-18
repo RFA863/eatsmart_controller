@@ -117,6 +117,16 @@ CREATE TABLE Rekomendasi (
     
 );
 
+CREATE TABLE Chat_ai(
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    profile_id INT NOT NULL,
+    user_message TEXT NOT NULL,
+    bot_response TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (profile_id) REFERENCES Profile(id)
+);
+
 -- CREATE TABLE Preferensi_diet (
 --     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 --     preferensi VARCHAR(100) NOT NULL,
