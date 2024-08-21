@@ -6,7 +6,8 @@ import MenuModel from "../models/Menu.model.js";
 import ProfileModel from "../models/Profile.model.js";
 import RekomendasiModel from '../models/Rekomendasi.model.js';
 import BahanMakananModel from '../models/BahanMakanan.model.js';
-import BahanMakananDetailModel from '../models/BahanMakananDetail.model.js';
+import KategoriMakananModel from "../models/KategoriMakanan.model.js"
+import BahanMakananDetailModel from "../models/BahanMakananDetail.model.js";
 
 class MenuService {
     constructor(Server) {
@@ -16,6 +17,7 @@ class MenuService {
         this.ProfileModel = new ProfileModel(this.Server).table;
         this.RekomendasiModel = new RekomendasiModel(this.Server).table;
         this.BahanMakananModel = new BahanMakananModel(this.Server).table;
+        this.KategoriMakananModel = new KategoriMakananModel(this.Server).table;
         this.BahanMakananDetailModel = new BahanMakananDetailModel(this.Server).table;
     }
 
@@ -38,25 +40,45 @@ class MenuService {
             foreignKey: "menu_id"
         });
 
+        this.KategoriMakananModel.hasMany(this.MenuModel, {
+            foreignKey: "kategori_makanan_id"
+        });
+        this.MenuModel.belongsTo(this.KategoriMakananModel, {
+            foreignKey: "kategori_makanan_id"
+        });
+
+        this.BahanMakananModel.hasMany(this.MenuModel, {
+            foreignKey: "bahan_makanan_id"
+        });
+        this.MenuModel.belongsTo(this.BahanMakananModel, {
+            foreignKey: "bahan_makanan_id"
+        });
+
 
         const getRekomendasiModel = await this.RekomendasiModel.findAll({
             where: {
                 profile_id: getProfileModel.dataValues.id
             },
-            include: [
-                {
-                    model: this.MenuModel,
-                    attributes: {
-                        include: [
-                            [Sequelize.fn('CONCAT', this.Server.env.HOSTNAME, '/menu/public/img/', Sequelize.col('gambar')), 'gambar_path']
-                        ]
-                    }
+            // include: [
+            //     {
+            //         model: this.MenuModel,
+            //         attributes: {
+            //             include: [
+            //                 [Sequelize.fn('CONCAT', this.Server.env.HOSTNAME, '/menu/public/img/', Sequelize.col('gambar')), 'gambar_path']
+            //             ]
+            //         }
 
-                }
-            ]
+            //     }
+            // ]
         });
 
-        if (getRekomendasiModel.length !== 0) return getRekomendasiModel;
+        if (getRekomendasiModel.length !== 0) {
+            await this.RekomendasiModel.destroy({
+                where: {
+                    profile_id: getProfileModel.dataValues.id
+                }
+            })
+        };
 
         const getImb = getProfileModel.dataValues.ibm;
         const getProfileBahanMakanan = await this.BahanMakananDetailModel.findAll({
@@ -127,7 +149,12 @@ class MenuService {
                         include: [
                             [Sequelize.fn('CONCAT', this.Server.env.HOSTNAME, '/menu/public/img/', Sequelize.col('gambar')), 'gambar_path']
                         ]
-                    }
+                    },
+                    include: [
+                        { model: this.BahanMakananModel },
+                        { model: this.KategoriMakananModel },
+                    ]
+
 
                 }
             ]
@@ -165,6 +192,39 @@ class MenuService {
         return { imgPath, mimeType };
     }
 
+    async getMenuId(menuId) {
+
+        this.KategoriMakananModel.hasMany(this.MenuModel, {
+            foreignKey: "kategori_makanan_id"
+        });
+        this.MenuModel.belongsTo(this.KategoriMakananModel, {
+            foreignKey: "kategori_makanan_id"
+        });
+
+        this.BahanMakananModel.hasMany(this.MenuModel, {
+            foreignKey: "bahan_makanan_id"
+        });
+        this.MenuModel.belongsTo(this.BahanMakananModel, {
+            foreignKey: "bahan_makanan_id"
+        });
+
+        const getMenuModel = await this.MenuModel.findOne({
+            where: {
+                id: menuId
+            }, attributes: {
+                include: [
+                    [Sequelize.fn('CONCAT', this.Server.env.HOSTNAME, '/menu/public/img/', Sequelize.col('gambar')), 'gambar_path']
+                ]
+            }, include: [
+                { model: this.KategoriMakananModel },
+                { model: this.BahanMakananModel }
+            ]
+        });
+
+        if (getMenuModel === null) return -1;
+
+        return getMenuModel;
+    }
 
 }
 

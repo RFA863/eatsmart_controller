@@ -53,6 +53,74 @@ class ProfileValidator {
         additionalProperties: false,
     }
 
+    updateProfile = {
+        type: "object",
+        properties: {
+
+            tanggal_lahir: {
+                type: "string",
+                maxLength: 100,
+                minLength: 1,
+                nullable: false,
+            },
+
+            tinggi: {
+                type: "number",
+                maximum: 999,
+                minimum: 1,
+                nullable: false,
+            },
+
+            berat: {
+                type: "number",
+                maximum: 999,
+                minimum: 1,
+                nullable: false,
+            },
+
+            jeniskelamin: {
+                type: "boolean",
+                nullable: false,
+            },
+
+            aktivitas_id: {
+                type: "number",
+                minimum: 1,
+                nullable: false
+            },
+
+            tujuan_diet_id: {
+                type: "number",
+                minimum: 1,
+                nullable: false
+            },
+
+            bahan_makanan_id: {
+                type: "array",
+                minItems: 1,
+                items: { type: "number" },
+                nullable: false,
+            },
+
+            username: {
+                type: "string",
+                maxLength: 100,
+                minLength: 1,
+                nullable: false,
+            },
+
+            email: {
+                type: "string",
+                maxLength: 100,
+                minLength: 1,
+                nullable: false,
+            },
+        },
+        required: ["tanggal_lahir", "tinggi", "berat", "jeniskelamin", "aktivitas_id", "tujuan_diet_id", "bahan_makanan_id", "username", "email"],
+        additionalProperties: false,
+    }
+
+
     // inputBahanMakanan = {
     //     type: "object",
     //     properties: {

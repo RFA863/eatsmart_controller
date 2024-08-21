@@ -41,6 +41,25 @@ class ChatAiController {
 
         res.status(200).json(this.ResponsePreset.resOK("Ok", inputMessageSrv));
     }
+
+    async messageNoAuth(req, res) {
+        const schemaValidate = this.Ajv.compile(this.ChatAiValidator.inputMessage)
+        if (!schemaValidate(req.body))
+            return res.status(400).json(this.ResponsePreset.resErr(
+                "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]
+            ));
+
+        const data = req.body
+
+        const messageNoAuthSrv = await this.ChatAiService.messageNoAuth(data);
+
+        if (messageNoAuthSrv === -2)
+            return res.status(400).json(this.ResponsePreset.resErr(
+                400, "Bad Request", "Service", { code: -2 }
+            ));
+
+        res.status(200).json(this.ResponsePreset.resOK("Ok", messageNoAuthSrv));
+    }
 }
 
 export default ChatAiController;

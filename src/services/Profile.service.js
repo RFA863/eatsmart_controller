@@ -89,7 +89,22 @@ class ProfileService {
             },
         });
 
-        const countTotalKalori = countBmr * getAktifitas.dataValues.faktor_aktivitas;
+        let countTotalKalori = countBmr * getAktifitas.dataValues.faktor_aktivitas;
+
+
+
+        switch (data.tujuan_diet_id) {
+            case 1:
+                countTotalKalori -= 750;
+                break;
+            case 3:
+                countTotalKalori += 375;
+                break;
+        };
+
+        const countProtein = (countTotalKalori * 0.20) / 4;
+        const countLemak = (countTotalKalori * 0.25) / 9;
+        const countKarbohidrat = (countTotalKalori * 0.55) / 4;
 
         const inputProfile = await this.ProfileModel.create({
             user_id: userId,
@@ -100,6 +115,9 @@ class ProfileService {
             jeniskelamin: data.jeniskelamin,
             ibm: ibmKategori,
             bmr: countBmr,
+            protein: countProtein,
+            karbohidrat: countKarbohidrat,
+            lemak: countLemak,
             total_kalori: countTotalKalori,
             aktivitas_id: data.aktivitas_id,
             tujuan_diet_id: data.tujuan_diet_id,
@@ -223,7 +241,20 @@ class ProfileService {
             },
         });
 
-        const countTotalKalori = countBmr * getAktifitas.dataValues.faktor_aktivitas;
+        let countTotalKalori = countBmr * getAktifitas.dataValues.faktor_aktivitas;
+
+        switch (data.tujuan_diet_id) {
+            case 1:
+                countTotalKalori -= 750;
+                break;
+            case 3:
+                countTotalKalori += 375;
+                break;
+        };
+
+        const countProtein = (countTotalKalori * 0.20) / 4;
+        const countLemak = (countTotalKalori * 0.25) / 9;
+        const countKarbohidrat = (countTotalKalori * 0.55) / 4;
 
         const updateProfile = await this.ProfileModel.update({
             tanggal_lahir: data.tanggal_lahir,
@@ -234,6 +265,9 @@ class ProfileService {
             ibm: ibmKategori,
             bmr: countBmr,
             total_kalori: countTotalKalori,
+            protein: countProtein,
+            karbohidrat: countKarbohidrat,
+            lemak: countLemak,
             aktivitas_id: data.aktivitas_id,
             tujuan_diet_id: data.tujuan_diet_id,
             updated_at: new Date(),
@@ -259,6 +293,16 @@ class ProfileService {
                 updated_at: new Date(),
             });
         };
+
+        const updateUserModel = await this.UserModel.update({
+            username: data.username,
+            email: data.email,
+            updated_at: new Date(),
+        }, {
+            where: {
+                id: userId
+            }
+        });
 
         return updateProfile;
 

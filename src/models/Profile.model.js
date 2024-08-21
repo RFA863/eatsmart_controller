@@ -59,6 +59,21 @@ class ProfileModel {
                     allowNull: false,
                 },
 
+                protein: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                },
+
+                karbohidrat: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                },
+
+                lemak: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                },
+
                 aktivitas_id: {
                     type: DataTypes.INTEGER,
                     allowNull: false

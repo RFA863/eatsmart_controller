@@ -37,8 +37,8 @@ class AuthService {
         });
 
 
-
-        return regisUser;
+        const token = this.generateToken(regisUser.id);
+        return { regisUser, token };
     }
 
     async login(data) {

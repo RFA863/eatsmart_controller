@@ -17,6 +17,9 @@ class MenuRoute {
             (req, res) => this.MenuController.getData(req, res));
 
         this.API.get(this.routePrefix + "/public/img/:gambar", (req, res) => this.MenuController.getGambar(req, res));
+
+        this.API.get(this.routePrefix + "/get/:id", this.AuthorizationMiddleware.check(),
+            (req, res) => this.MenuController.getMenuId(req, res));
     }
 
 }

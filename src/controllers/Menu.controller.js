@@ -36,6 +36,19 @@ class MenuController {
         res.status(200).sendFile(imgPath);
 
     }
+
+    async getMenuId(req, res) {
+        const menuId = req.params.id;
+
+        const getMenuIdSrv = await this.MenuService.getMenuId(menuId);
+
+        if (getMenuIdSrv === -1)
+            return res.status(404).json(this.ResponsePreset.resErr(
+                404, "Menu Not Found", "Service", { code: -1 }
+            ));
+
+        res.status(200).json(this.ResponsePreset.resOK("Ok", getMenuIdSrv));
+    }
 }
 
 export default MenuController;

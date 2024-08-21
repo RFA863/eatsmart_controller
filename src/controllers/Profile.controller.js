@@ -73,7 +73,7 @@ class ProfileController {
 
     async update(req, res) {
 
-        const schemaValidate = this.Ajv.compile(this.ProfileValidator.inputProfile)
+        const schemaValidate = this.Ajv.compile(this.ProfileValidator.updateProfile)
         if (!schemaValidate(req.body))
             return res.status(400).json(this.ResponsePreset.resErr(
                 "400", schemaValidate.errors[0].message, "validator", schemaValidate.errors[0]

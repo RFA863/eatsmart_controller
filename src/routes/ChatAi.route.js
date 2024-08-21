@@ -14,6 +14,9 @@ class ChatAiRoute {
     route() {
         this.API.post(this.routePrefix + "/input", this.AuthorizationMiddleware.check(),
             (req, res) => this.ChatAiController.inputMessage(req, res));
+
+        this.API.post(this.routePrefix + "/input/no-auth",
+            (req, res) => this.ChatAiController.messageNoAuth(req, res));
     }
 }
 
