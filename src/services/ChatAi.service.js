@@ -67,17 +67,24 @@ class ChatAiService {
     }
 
     async messageNoAuth(data) {
-        const prompt = "Anda adalah seorang yang ahli dibidang, kesehatan, gizi, nutrisi dan diet. Tolong jawab lah pertanyaan-pertanyaan dibawah ini yang berkaitan dengan bidang yang anda kuasai tersebut. dan jika ada yang bertanya di luar bidang yang anda kuasai tolong untuk tidak di jawab. berikut adalah pertanyaan-pertanyaan tersebut :" + data.user_message;
+        try {
+            const prompt = "Anda adalah seorang yang ahli dibidang, kesehatan, gizi, nutrisi dan diet. Tolong jawab lah pertanyaan-pertanyaan dibawah ini yang berkaitan dengan bidang yang anda kuasai tersebut. dan jika ada yang bertanya di luar bidang yang anda kuasai tolong untuk tidak di jawab. berikut adalah pertanyaan-pertanyaan tersebut :" + data.user_message;
 
-        const result = await this.model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+            const result = await this.model.generateContent(prompt);
+            const response = await result.response;
+            const text = await response.text();
 
-        if (!text) return -2;
+            if (!text) return -2;
 
-        const bot_response = text;
+            const bot_response = text;
 
-        return bot_response;
+            return bot_response;
+
+        } catch (error) {
+            // Tangani atau lempar kembali error ke controller
+            // console.error('Error in messageNoAuth Service:', error);
+            throw new Error('ServiceError: ' + error.message);
+        }
     }
 }
 

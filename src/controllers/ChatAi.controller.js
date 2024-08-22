@@ -51,14 +51,27 @@ class ChatAiController {
 
         const data = req.body
 
-        const messageNoAuthSrv = await this.ChatAiService.messageNoAuth(data);
+        try {
+            // Memanggil service untuk memproses pesan tanpa autentikasi
+            const messageNoAuthSrv = await this.ChatAiService.messageNoAuth(data);
 
-        if (messageNoAuthSrv === -2)
-            return res.status(400).json(this.ResponsePreset.resErr(
-                400, "Bad Request", "Service", { code: -2 }
+            if (messageNoAuthSrv === -2) {
+                return res.status(400).json(this.ResponsePreset.resErr(
+                    400, "Bad Request", "Service", { code: -2 }
+                ));
+            }
+
+            // Mengembalikan respon sukses
+            return res.status(200).json(this.ResponsePreset.resOK("Ok", messageNoAuthSrv));
+
+        } catch (error) {
+            // Penanganan error
+            return res.status(500).json(this.ResponsePreset.resErr(
+                500, error.message, "service", { code: -3 }
             ));
+        }
 
-        res.status(200).json(this.ResponsePreset.resOK("Ok", messageNoAuthSrv));
+
     }
 }
 
